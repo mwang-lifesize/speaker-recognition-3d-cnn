@@ -11,12 +11,17 @@ from src.common.helper import preproc
 
 def return_format_keras(_dict, _mapping, num_classes):
     ret_ = list()
+    user_mapping = {}
     for speaker, files in _dict.items():
         for file in files:
             spk = _mapping.index(speaker)
+            #print( "spk is:", spk, ", speaker is:", speaker, ",file is:", file )
+            user_mapping[spk]= speaker
             feat = file
             ret_.append([feat, to_categorical(spk, num_classes)])
 
+    user_mapping_file = "user_mapping.npy"
+    np.save(user_mapping_file, user_mapping);
     return map(list, zip(*ret_))
 
 
